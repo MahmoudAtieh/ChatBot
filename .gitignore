@@ -1,0 +1,23 @@
+node_modules/
+dist/
+.env
+.env.*
+!.env.example
+coverage/
+*.log
+.DS_Store
+Thumbs.db
+.vscode/
+.idea/
+*.db
+*.sqlite*
+*.backup
+
+# Never commit credentials or raw customer exports.
+*.pem
+*.key
+**/whatsapp_conversations.jsonl
+**/whatsapp_training.jsonl
+raw-data/
+decrypted/
+incoming/

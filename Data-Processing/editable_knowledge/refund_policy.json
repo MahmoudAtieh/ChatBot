@@ -1,0 +1,76 @@
+{
+  "schema_version": 1,
+  "policy": "refund_and_return",
+  "store": {
+    "name": "Arabic Sofa",
+    "domain": "arabicsofa.com"
+  },
+  "canonical_source_url": "https://arabicsofa.com/policies/refund-policy",
+  "verified_at": "2026-09-15",
+  "source_snapshot": {
+    "relative_path": "policies/en/refund-policy.md",
+    "sha256": "b50df32eed7ea4efa735440c460a3d883e0b91677e740880ed0f6f515316b568",
+    "bytes": 2170,
+    "verified_at": "2026-09-15"
+  },
+  "review_status": "pending_owner_review",
+  "official_source_verified": true,
+  "runtime_eligible": false,
+  "activation_rule": "Merchant reviews edits, sets review_status to approved, then sets runtime_eligible to true.",
+  "summary": {
+    "ar": "يمكن طلب إرجاع مؤهل خلال 14 يوماً من الاستلام. تختلف المسؤولية والإجراء بحسب ما إذا كان المنتج تالفاً أو معيباً، أو كان الطلب بسبب تغيير الرأي.",
+    "en": "An eligible return can be requested within 14 days of delivery. Responsibility and process differ for damaged or defective items versus change-of-mind returns."
+  },
+  "rules": {
+    "damaged_or_defective": {
+      "contact_timing": "immediately",
+      "replacement_shipping_cost_to_customer": false,
+      "ar": "بحسب السياسة، يتواصل العميل فوراً، ويتولى المتجر ترتيب استبدال مجاني دون تكلفة شحن على العميل.",
+      "en": "Under the policy, the customer should contact the store immediately, and the store arranges a free replacement with no shipping cost to the customer."
+    },
+    "return_window_days_from_delivery": 14,
+    "eligibility_conditions": [
+      "unused",
+      "unwashed",
+      "original condition",
+      "original packaging and tags included",
+      "receipt or proof of purchase available",
+      "contact the store before sending anything back"
+    ],
+    "change_of_mind_return_shipping_paid_by": "customer",
+    "exchange": {
+      "maximum_per_order": 1,
+      "request_window_days_from_delivery": 14,
+      "non_defective_return_shipping_paid_by": "customer",
+      "replacement_sent_after": "returned item is received and inspected"
+    },
+    "refund_process": {
+      "inspection_business_days": 2,
+      "destination": "original payment method after approval",
+      "credit_card_posting_estimate_business_days": {
+        "min": 5,
+        "max": 10
+      },
+      "posting_time_depends_on": "customer bank"
+    },
+    "not_eligible": [
+      "damage caused by customer misuse, stains, or tears",
+      "request after the 14-day window",
+      "missing original packaging or tags",
+      "custom or made-to-order product"
+    ],
+    "return_shipping": {
+      "damaged_or_defective_paid_by": "store",
+      "change_of_mind_paid_by": "customer",
+      "original_shipping_charges_refundable": false,
+      "trackable_service_recommended": true
+    }
+  },
+  "bot_rules": [
+    "Answer general policy questions without asking for personal order data.",
+    "For an actual return, refund, exchange, cancellation, or replacement, verify the order and create a human-reviewed case.",
+    "Do not promise approval, payment timing beyond the stated estimate, or an exception.",
+    "Do not reuse historical cancellation or order-change claims; verify live order state.",
+    "Do not expose a return address or email from historical pages; use the configured handoff channel because contact details conflict across official pages."
+  ]
+}

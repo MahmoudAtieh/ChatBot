@@ -1,0 +1,305 @@
+{
+  "schema_version": 1,
+  "store": {
+    "name": "Arabic Sofa",
+    "domain": "arabicsofa.com"
+  },
+  "purpose": "owner-review FAQ draft containing only stable definitions and processes",
+  "review_status": "pending_owner_review",
+  "quality_audited": true,
+  "runtime_eligible": false,
+  "activation_rule": "Merchant reviews the prepared entries, changes accepted entries to approved, then sets the file runtime_eligible to true.",
+  "runtime_loader_rule": "Load only entries whose status is approved and only when this file runtime_eligible is true.",
+  "language_policy": "Answer in the customer's language; Arabic and English answers are equivalent.",
+  "source_audit": {
+    "intercom_internal_article_title": "Frequently Asked Questions",
+    "source_numbered_entries": 98,
+    "missing_source_numbers": [
+      7,
+      76
+    ],
+    "source_updated_at": "2025-12-07",
+    "treatment": "Only stable, cross-checked definitions and workflows were prepared for owner review. Mutable product, shipping, return, payment, warranty, production, and availability claims were removed or routed to their live source."
+  },
+  "entries": [
+    {
+      "id": "what_is_a_majlis",
+      "intent": "definition",
+      "questions": {
+        "ar": [
+          "شو هو المجلس أو الفرش الأرضي؟",
+          "ما الفرق بين المجلس والكنبة العادية؟"
+        ],
+        "en": [
+          "What is a Majlis or floor sofa?",
+          "How is it different from a regular couch?"
+        ]
+      },
+      "answer": {
+        "ar": "المجلس أو الفرش الأرضي أسلوب جلوس عربي منخفض، وغالباً يتكوّن من وحدات يمكن ترتيبها حول المساحة. تفاصيل الارتفاع والمقاسات والمكونات تختلف حسب الموديل، لذلك نتحقق منها من صفحة المنتج.",
+        "en": "A Majlis or floor sofa is a lower Arabic seating style, usually made of modules that can be arranged around the room. Height, dimensions, and included pieces vary by model, so those details are checked on the product page."
+      },
+      "source_basis": [
+        "intercom_internal_faq_question_1"
+      ],
+      "runtime_eligible": false,
+      "status": "pending_review",
+      "route": "static_faq"
+    },
+    {
+      "id": "custom_dimensions",
+      "intent": "custom_order_capability",
+      "questions": {
+        "ar": [
+          "هل تعملون حسب المقاس؟",
+          "ممكن تفصيل المجلس على مقاسات غرفتي؟"
+        ],
+        "en": [
+          "Do you make custom sizes?",
+          "Can a Majlis be made to my room measurements?"
+        ]
+      },
+      "answer": {
+        "ar": "نعم، يمكن مراجعة طلب بمقاسات مخصصة. أرسل الموديل أو صورة مرجعية ومقاسات المكان، والفريق يؤكد التفاصيل وإمكانية التنفيذ قبل اعتماد الطلب.",
+        "en": "Yes, a custom-size request can be reviewed. Share the model or a reference image and the room measurements, and the team will confirm the details and feasibility before the order is approved."
+      },
+      "source_basis": [
+        "whatsapp_repeated_workflow",
+        "intercom_internal_faq_question_15"
+      ],
+      "runtime_eligible": false,
+      "status": "pending_review",
+      "route": "custom_order"
+    },
+    {
+      "id": "custom_request_information",
+      "intent": "custom_order_intake",
+      "questions": {
+        "ar": [
+          "شو المطلوب لطلب تفصيل؟",
+          "ما المعلومات التي أرسلها لطلب خاص؟"
+        ],
+        "en": [
+          "What do you need for a custom order?",
+          "What should I send for a custom request?"
+        ]
+      },
+      "answer": {
+        "ar": "أرسل الموديل أو صورة مرجعية، قياس كل جدار مع وحدة القياس، وصورة أو رسم للمكان يوضح الأبواب والنوافذ. أضف اللون أو القماش المفضل والبلد والرمز البريدي إن أمكن.",
+        "en": "Send the model or a reference image, each wall measurement with the unit, and a room photo or sketch showing doors and windows. Add your preferred color or fabric, country, and postal code if available."
+      },
+      "source_basis": [
+        "whatsapp_repeated_workflow",
+        "intercom_macros",
+        "official_project_form"
+      ],
+      "runtime_eligible": false,
+      "status": "pending_review",
+      "route": "custom_order"
+    },
+    {
+      "id": "how_to_measure_room",
+      "intent": "measurement_guidance",
+      "questions": {
+        "ar": [
+          "كيف أقيس الغرفة؟",
+          "كيف أرسل مقاسات المكان؟"
+        ],
+        "en": [
+          "How should I measure my room?",
+          "How do I send the room measurements?"
+        ]
+      },
+      "answer": {
+        "ar": "قِس كل جزء من الجدار من زاوية إلى زاوية، واكتب القياسات على رسم بسيط لشكل الغرفة. وضّح وحدة القياس ومواقع الأبواب والنوافذ أو أي عائق ثابت، ولا تعتمد على الصورة لتقدير الأبعاد.",
+        "en": "Measure each wall section from corner to corner and mark the values on a simple room sketch. Include the unit and the locations of doors, windows, or fixed obstacles; dimensions should never be estimated from a photo."
+      },
+      "source_basis": [
+        "whatsapp_repeated_workflow"
+      ],
+      "runtime_eligible": false,
+      "status": "pending_review",
+      "route": "custom_order"
+    },
+    {
+      "id": "reference_image",
+      "intent": "reference_design",
+      "questions": {
+        "ar": [
+          "هل أقدر أرسل صورة للشكل المطلوب؟",
+          "ممكن تعملوا شيئاً قريباً من صورة عندي؟"
+        ],
+        "en": [
+          "Can I send a reference photo?",
+          "Can you review a design similar to my image?"
+        ]
+      },
+      "answer": {
+        "ar": "نعم، أرسل الصورة لتوضيح الشكل المطلوب مع مقاسات المكان. تُستخدم الصورة كمرجع، والفريق يؤكد ما يمكن تنفيذه؛ لا نعد بنسخة مطابقة قبل المراجعة.",
+        "en": "Yes, send the image as a style reference together with the room measurements. The team will confirm what can be made; an exact copy is never promised before review."
+      },
+      "source_basis": [
+        "whatsapp_repeated_workflow"
+      ],
+      "runtime_eligible": false,
+      "status": "pending_review",
+      "route": "custom_order"
+    },
+    {
+      "id": "custom_quote_method",
+      "intent": "custom_quote",
+      "questions": {
+        "ar": [
+          "كيف يتحدد سعر المجلس المفصل؟",
+          "كيف آخذ عرض سعر؟"
+        ],
+        "en": [
+          "How is a custom Majlis price determined?",
+          "How do I get a custom quote?"
+        ]
+      },
+      "answer": {
+        "ar": "السعر يعتمد على الموديل والمقاسات والتكوين وخيارات القماش أو اللون. أرسل هذه التفاصيل مع بلد ورمز التوصيل، ثم يراجع الفريق الطلب ويؤكد السعر.",
+        "en": "Pricing depends on the model, measurements, configuration, and fabric or color choices. Share those details with the destination country and postal code, then the team will review the request and confirm the price."
+      },
+      "source_basis": [
+        "whatsapp_repeated_workflow",
+        "intercom_internal_faq_question_16"
+      ],
+      "runtime_eligible": false,
+      "status": "pending_review",
+      "route": "custom_order"
+    },
+    {
+      "id": "projects_and_wholesale",
+      "intent": "bulk_or_project_order",
+      "questions": {
+        "ar": [
+          "هل تستقبلون طلبات مشاريع أو جملة؟",
+          "عندي طلب لمطعم أو فندق"
+        ],
+        "en": [
+          "Do you handle projects or wholesale orders?",
+          "I need seating for a restaurant or hotel"
+        ]
+      },
+      "answer": {
+        "ar": "نعم، نستقبل طلبات المشاريع والكميات. أرسل نوع المشروع، المنتجات والكميات، المقاسات، بلد ورمز التوصيل، والموعد المطلوب، ثم يراجع الفريق التفاصيل ويجهز عرضاً مخصصاً.",
+        "en": "Yes, we handle project and quantity orders. Share the project type, products and quantities, measurements, destination country and postal code, and target date, then the team will review the details and prepare a custom quote."
+      },
+      "source_basis": [
+        "official_projects_and_wholesale_page",
+        "conversation_workflows"
+      ],
+      "runtime_eligible": false,
+      "status": "pending_review",
+      "route": "bulk_order"
+    },
+    {
+      "id": "damage_report_evidence",
+      "intent": "damage_evidence",
+      "questions": {
+        "ar": [
+          "شو الصور المطلوبة للإبلاغ عن ضرر؟",
+          "كيف أوثق المشكلة؟"
+        ],
+        "en": [
+          "What photos do you need for a damage report?",
+          "How should I document an issue?"
+        ]
+      },
+      "answer": {
+        "ar": "عند فتح الحالة نحتاج رقم الطلب للتحقق. وإذا أمكن، أرسل صورة للمنتج كاملاً وصورة قريبة للمشكلة، وفيديو قصيراً فقط إذا كانت الحركة أو التركيب توضحها. الأدلة تساعد المراجعة وليست شرطاً إضافياً للأهلية.",
+        "en": "The order number is needed to open and verify the case. If possible, add a full-item photo, a close-up, and a short video only when movement or assembly shows the issue. Evidence helps the review and is not an additional eligibility condition."
+      },
+      "source_basis": [
+        "customer_support_conversation_workflow"
+      ],
+      "policy_note": "The official refund policy does not require photos or video as an eligibility condition.",
+      "runtime_eligible": false,
+      "status": "pending_review",
+      "route": "complaint_or_damage"
+    }
+  ],
+  "intent_aliases": {
+    "how_to_share_room_measurements": "how_to_measure_room",
+    "information_needed_for_custom_request": "custom_request_information",
+    "using_a_reference_image": "reference_image",
+    "custom_sizing_capability": "custom_dimensions",
+    "media_needed_for_damage_report": "damage_report_evidence"
+  },
+  "dynamic_topic_routes": [
+    {
+      "topics": [
+        "product",
+        "price",
+        "discount",
+        "stock",
+        "variant",
+        "specification",
+        "warranty"
+      ],
+      "source": "live_shopify"
+    },
+    {
+      "topics": [
+        "shipping",
+        "transit",
+        "carrier",
+        "customs",
+        "tracking"
+      ],
+      "source": "editable_knowledge/shipping_policy.json"
+    },
+    {
+      "topics": [
+        "return",
+        "refund",
+        "exchange",
+        "damage_eligibility"
+      ],
+      "source": "editable_knowledge/refund_policy.json"
+    },
+    {
+      "topics": [
+        "order_status",
+        "order_change",
+        "cancellation"
+      ],
+      "source": "verified_live_shopify_order_or_human"
+    },
+    {
+      "topics": [
+        "country_eligibility"
+      ],
+      "source": "live_shopify_checkout_or_human"
+    },
+    {
+      "topics": [
+        "custom_price",
+        "bulk_discount",
+        "production_time",
+        "technical_feasibility"
+      ],
+      "source": "human_confirmation"
+    },
+    {
+      "topics": [
+        "care",
+        "washing",
+        "outdoor_use",
+        "allergy_or_safety_claim"
+      ],
+      "source": "product_specific_shopify_data_or_human"
+    }
+  ],
+  "never_answer_from_historical_faq": [
+    "prices or discounts",
+    "production durations",
+    "shipping durations or country lists",
+    "foam density or material absolutes",
+    "warranty terms",
+    "payment methods or tax inclusion",
+    "absolute durability, medical, allergy, child-safety, pet, or low-VOC claims"
+  ]
+}

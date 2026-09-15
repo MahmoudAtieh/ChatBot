@@ -1,0 +1,1374 @@
+{
+  "schema_version": 2,
+  "script_version": "2.1.0",
+  "generated_at": "2026-09-15T10:07:29.730718+00:00",
+  "store_scope": {
+    "name": "Arabic Sofa",
+    "domain": "arabicsofa.com",
+    "strict_single_store": true
+  },
+  "output_root": "Data-Processing",
+  "source_priority": [
+    "live Shopify for products, prices, variants, stock, checkout eligibility, and verified orders",
+    "canonical official policy URLs listed by arabicsofa.com/agents.md",
+    "merchant-approved editable_knowledge files",
+    "official site pages for stable brand and workflow context",
+    "high-confidence Arabic Sofa conversations and macros for behavior only"
+  ],
+  "input_review": {
+    "previous_processed_data": {
+      "usage": "three explicitly allowlisted, hash-pinned draft files only; their routes and customer-facing content are validated again before output. Earlier raw evidence counts and source references are discarded because that extraction was not strict single-brand.",
+      "audited_pinned_sha256": {
+        "static_faq_candidates.jsonl": "9af087ff0dcecc06af84694d3630ff54eb6993a8c2e159e668f126148d30f337",
+        "playbook_candidates.json": "8648bac118697c79085c3300053f0c849fe305285dd531c8445a241ab020bd0c",
+        "evaluation_cases.jsonl": "91d7b201e9b69f290f2d55000c0abc45f215d7229f52c2d28c20e15350fe0dab"
+      }
+    },
+    "whatsapp_archive": {
+      "file": "whatsapp_conversations.jsonl",
+      "sha256": "79b662ca74ea2287e744a08ec90d0bdb2d79321f04a3788519a13029ced1e3ea",
+      "record_classification": {
+        "total": 25214,
+        "excluded_product_only_ambiguous": 1775,
+        "included_high_confidence_arabicsofa": 18348,
+        "excluded_sofhu": 574,
+        "excluded_unclassified": 4517
+      },
+      "included_message_roles": {
+        "customer": 87155,
+        "business": 115592
+      },
+      "included_message_kinds": {
+        "call": 1652,
+        "voice": 2218,
+        "sticker": 158,
+        "text": 175597,
+        "document": 5235,
+        "video": 1622,
+        "image": 14838,
+        "deleted": 967,
+        "contact": 13,
+        "order": 419,
+        "product": 3,
+        "location": 18,
+        "gif": 7
+      },
+      "included_two_sided_conversations": 17893,
+      "customer_to_business_reply_runs": 54536,
+      "aggregate_behavior_signals": {
+        "business_text_messages_reviewed": 99770,
+        "contains_emoji": 25410,
+        "thanks_or_warm_close": 1233,
+        "greeting": 27710,
+        "measurement_request": 14041,
+        "apology_or_empathy": 840,
+        "contains_question": 26155
+      },
+      "raw_records_exported": false,
+      "raw_phone_field_exported": false,
+      "usage": "behavior and workflow evidence only",
+      "related_file_decisions": {
+        "whatsapp_training.jsonl": "excluded as a derived subset; do not double-count with whatsapp_conversations.jsonl",
+        "whatsapp_summary.json": "metadata cross-check only",
+        "whatsapp_labels.json": "metadata cross-check only",
+        "decrypted/msgstore.db": "raw source already represented by the normalized export; never copied to final data",
+        "incoming": "transport/archive inputs not separately ingested after normalized export verification",
+        "processed_data": "only the three audited, hash-pinned drafts listed above were reused; counts and source references were discarded"
+      }
+    },
+    "official_site_bundle": {
+      "inventory": {
+        "folder": "arabicsofa.com-20260915T084429Z-1-001",
+        "files": 232,
+        "bytes": 117251683,
+        "extensions": {
+          ".json": 18,
+          ".jsonl": 6,
+          ".md": 208
+        }
+      },
+      "folder": "arabicsofa.com-20260915T084429Z-1-001",
+      "source": "https://arabicsofa.com",
+      "crawl_finished_at": "2026-09-11T22:11:32.871053+00:00",
+      "counts": {
+        "product": {
+          "en": 639,
+          "ar": 639,
+          "de": 639,
+          "fr": 639
+        },
+        "collection": {
+          "en": 71,
+          "ar": 71,
+          "de": 71,
+          "fr": 71
+        },
+        "page": {
+          "en": 17,
+          "ar": 17,
+          "de": 16,
+          "fr": 16
+        },
+        "policy": {
+          "en": 6,
+          "ar": 6
+        },
+        "blog": {
+          "en": 32,
+          "ar": 32,
+          "de": 32,
+          "fr": 33
+        }
+      },
+      "site_text_records": 3047,
+      "usage": "policy verification, stable workflow context, and conflict discovery; product snapshots not exported",
+      "content_decisions": {
+        "accepted": [
+          "policies/en/refund-policy.md",
+          "policies/en/shipping-policy.md",
+          "manually verified stable fields from pages/en/projects-wholesale.md",
+          "manually verified brand-tone themes from the Arabic Sofa About Us page"
+        ],
+        "excluded_from_behavior_or_facts": [
+          "all product snapshot files because Shopify is live truth",
+          "blogs except manually verified non-factual brand-tone themes",
+          "contact page because it contains mutable and conflicting contact details",
+          "20 mislabeled cross-locale page files that duplicate the English return policy",
+          "Arabic policy bodies as Arabic style evidence because their bodies are English"
+        ]
+      }
+    },
+    "intercom_conversations": {
+      "file": "conversations/intercom_conversations.jsonl",
+      "sha256": "03046d0780a41a0dd689ea5734723ba665fe7f0a2224b085e07530a7ea254709",
+      "record_classification": {
+        "total": 123349,
+        "included_high_confidence_arabicsofa": 99488,
+        "excluded_unclassified": 23143,
+        "excluded_product_only_ambiguous": 714,
+        "excluded_sofhu": 4,
+        "mixed_brand_signal": 4
+      },
+      "included_channels": {
+        "email": 3406,
+        "whatsapp": 38014,
+        "instagram": 16150,
+        "facebook": 39210,
+        "conversation": 2695,
+        "sms": 2,
+        "phone_call": 11
+      },
+      "included_states": {
+        "open": 688,
+        "closed": 98800
+      },
+      "included_message_roles": {
+        "customer": 260903,
+        "agent": 160931,
+        "bot": 113231
+      },
+      "included_two_sided_conversations": 59472,
+      "customer_to_agent_reply_runs": 104553,
+      "customer_to_agent_reply_runs_by_channel": {
+        "email": 2230,
+        "whatsapp": 69543,
+        "instagram": 13648,
+        "facebook": 17980,
+        "conversation": 1146,
+        "phone_call": 6
+      },
+      "included_agent_language_signals": {
+        "en": 102167,
+        "ar": 58406,
+        "other": 358
+      },
+      "aggregate_behavior_signals": {
+        "agent_replies_reviewed": 160931,
+        "greeting": 60636,
+        "contains_question": 42836,
+        "thanks_or_warm_close": 32420,
+        "exact_macro_matches": 26336,
+        "contains_emoji": 50434,
+        "follow_up": 1154,
+        "measurement_request": 27088,
+        "apology_or_empathy": 12054
+      },
+      "whatsapp_agent_language_signals": {
+        "en": 84703,
+        "ar": 25132,
+        "other": 310
+      },
+      "whatsapp_behavior_signals": {
+        "agent_replies_reviewed": 110145,
+        "exact_macro_matches": 21824,
+        "greeting": 29763,
+        "contains_question": 31207,
+        "contains_emoji": 18891,
+        "follow_up": 825,
+        "measurement_request": 15871,
+        "apology_or_empathy": 3288,
+        "thanks_or_warm_close": 9755
+      },
+      "date_range": {
+        "first_created_at": "2023-05-12T05:37:52+00:00",
+        "last_updated_at": "2026-09-11T21:37:45+00:00"
+      },
+      "rated_conversations": 0,
+      "rating_use": "none; absence of ratings means replies are evidence, not automatically good examples",
+      "raw_messages_exported": false,
+      "customer_names_exported": false,
+      "employee_names_exported": false
+    },
+    "conversation_bundle_inventory": {
+      "folder": "conversations-20260915T084629Z-1-001",
+      "files": 2,
+      "bytes": 171063259,
+      "extensions": {
+        ".jsonl": 2
+      }
+    },
+    "sample_export": {
+      "file": "conversations/sample_20.jsonl",
+      "records": 20,
+      "duplicates_of_main_export": 20,
+      "used_as_additional_source": false
+    },
+    "attachments": {
+      "directory_count_by_relevance": {
+        "high_confidence_arabicsofa": 122,
+        "excluded_ambiguous_or_unclassified": 1
+      },
+      "file_count_by_relevance": {
+        "high_confidence_arabicsofa": 548,
+        "excluded_ambiguous_or_unclassified": 1
+      },
+      "bytes_by_relevance": {
+        "high_confidence_arabicsofa": 558609184,
+        "excluded_ambiguous_or_unclassified": 148192
+      },
+      "extensions_by_relevance": {
+        "high_confidence_arabicsofa": {
+          ".mp4": 81,
+          ".png": 173,
+          ".jpg": 263,
+          ".jpeg": 7,
+          ".ogg": 23,
+          ".eml": 1
+        },
+        "excluded_ambiguous_or_unclassified": {
+          ".jpg": 1
+        }
+      },
+      "high_confidence_content_hashes": {
+        "unique": 266,
+        "duplicate_groups": 54,
+        "duplicate_instances_beyond_first": 282
+      },
+      "media_exported": false,
+      "content_reviewed": false,
+      "usage": "attachment inventory and duplicate analysis only; no image, video, audio, or email content was used as behavior or factual evidence. OGG has no transcript and EML is sensitive."
+    },
+    "intercom_knowledge": {
+      "macro_audit": {
+        "macros": 120,
+        "unique_nonempty_bodies": 115,
+        "risk_flag_counts": {
+          "contains_url_or_domain": 46,
+          "contains_employee_identity": 9,
+          "contains_price_or_currency": 27,
+          "contains_phone_like_value": 8,
+          "contains_promotion_or_free_claim": 33,
+          "contains_warranty_or_foam_claim": 21,
+          "contains_shipping_or_delivery_timing": 18
+        },
+        "raw_macro_bodies_exported": false,
+        "usage": "intent-to-action and tone evidence only after names, contacts, and mutable claims are removed"
+      },
+      "internal_articles_scanned": 3,
+      "content_snippets_scanned": 15,
+      "import_sources": 2,
+      "accepted_arabicsofa_source_ids": [
+        122342
+      ],
+      "rejected_sofhu_source_ids": [
+        123278
+      ],
+      "external_sofhu_pages_exported": false,
+      "external_pages_audit": {
+        "records": {
+          "total": 2423,
+          "sofhu": 266,
+          "arabicsofa": 2157,
+          "arabicsofa_clean": 2154,
+          "arabicsofa_host_with_sofhu_content": 3
+        },
+        "unique_urls": {
+          "sofhu": 266,
+          "source_id:123278": 266,
+          "arabicsofa": 2155,
+          "arabicsofa_clean": 2152,
+          "source_id:122342": 2155
+        },
+        "usage": "not ingested; exact-domain crawl is fresher and avoids mixed-brand contamination"
+      }
+    },
+    "unrelated_sibling_folder": {
+      "inventory": {
+        "folder": "sofhu.com-20260915T084534Z-1-001",
+        "files": 177,
+        "bytes": 13693500,
+        "extensions": {
+          ".json": 10,
+          ".jsonl": 2,
+          ".md": 165
+        }
+      },
+      "review_result": "excluded completely because it belongs to another store"
+    }
+  },
+  "relevance_filter": {
+    "included_conversation_rule": "explicit Arabic Sofa/ArabicSofa/arabicsofa.com signal and no Sofhu signal",
+    "excluded": [
+      "any Sofhu signal",
+      "product-only ambiguous conversations",
+      "unclassified conversations"
+    ],
+    "reason": "prefer lower recall over cross-brand contamination"
+  },
+  "faq_audit": {
+    "source": "Intercom internal article: Frequently Asked Questions",
+    "numbered_entries_found": 98,
+    "missing_numbers_between_1_and_100": [
+      7,
+      76
+    ],
+    "prepared_entries": 8,
+    "runtime_entries_before_owner_approval": 0,
+    "source_question_dispositions": {
+      "include_static": 10,
+      "route_to_shopify": 36,
+      "merchant_review_or_exclude": 31,
+      "route_to_policy": 21
+    },
+    "source_question_audit": [
+      {
+        "source_number": 1,
+        "question_en": "What is a Majlis / floor sofa? How is it different from a regular couch?",
+        "disposition": "include_static",
+        "route": "static",
+        "status": "retired",
+        "answer_imported": false,
+        "runtime_eligible": false,
+        "merged_into": "what_is_a_majlis"
+      },
+      {
+        "source_number": 2,
+        "question_en": "What collections do you offer?",
+        "disposition": "route_to_shopify",
+        "route": "shopify",
+        "status": "pending_review",
+        "answer_imported": false,
+        "runtime_eligible": false
+      },
+      {
+        "source_number": 3,
+        "question_en": "Can I choose the color when ordering?",
+        "disposition": "route_to_shopify",
+        "route": "shopify",
+        "status": "pending_review",
+        "answer_imported": false,
+        "runtime_eligible": false
+      },
+      {
+        "source_number": 4,
+        "question_en": "What fabric options are available?",
+        "disposition": "route_to_shopify",
+        "route": "shopify",
+        "status": "pending_review",
+        "answer_imported": false,
+        "runtime_eligible": false
+      },
+      {
+        "source_number": 5,
+        "question_en": "Are the fabrics durable for everyday use?",
+        "disposition": "merchant_review_or_exclude",
+        "route": "human",
+        "status": "blocked_conflict",
+        "answer_imported": false,
+        "runtime_eligible": false
+      },
+      {
+        "source_number": 6,
+        "question_en": "How firm is the foam?",
+        "disposition": "merchant_review_or_exclude",
+        "route": "human",
+        "status": "blocked_conflict",
+        "answer_imported": false,
+        "runtime_eligible": false
+      },
+      {
+        "source_number": 8,
+        "question_en": "Are the cushion covers fixed or removable?",
+        "disposition": "route_to_shopify",
+        "route": "shopify",
+        "status": "pending_review",
+        "answer_imported": false,
+        "runtime_eligible": false
+      },
+      {
+        "source_number": 9,
+        "question_en": "Are the covers washable?",
+        "disposition": "route_to_shopify",
+        "route": "shopify",
+        "status": "pending_review",
+        "answer_imported": false,
+        "runtime_eligible": false
+      },
+      {
+        "source_number": 10,
+        "question_en": "Are the models traditional or modern?",
+        "disposition": "include_static",
+        "route": "static",
+        "status": "pending_review",
+        "answer_imported": false,
+        "runtime_eligible": false
+      },
+      {
+        "source_number": 11,
+        "question_en": "Can I create a modular layout (L-shape / U-shape)?",
+        "disposition": "route_to_shopify",
+        "route": "shopify",
+        "status": "pending_review",
+        "answer_imported": false,
+        "runtime_eligible": false
+      },
+      {
+        "source_number": 12,
+        "question_en": "Do you have options for small spaces?",
+        "disposition": "route_to_shopify",
+        "route": "shopify",
+        "status": "pending_review",
+        "answer_imported": false,
+        "runtime_eligible": false
+      },
+      {
+        "source_number": 13,
+        "question_en": "Can the sofas be used on balconies or terraces?",
+        "disposition": "route_to_shopify",
+        "route": "shopify",
+        "status": "pending_review",
+        "answer_imported": false,
+        "runtime_eligible": false
+      },
+      {
+        "source_number": 14,
+        "question_en": "Do you sell spare cushions or covers separately?",
+        "disposition": "route_to_shopify",
+        "route": "shopify",
+        "status": "pending_review",
+        "answer_imported": false,
+        "runtime_eligible": false
+      },
+      {
+        "source_number": 15,
+        "question_en": "Do you offer custom dimensions?",
+        "disposition": "include_static",
+        "route": "static",
+        "status": "retired",
+        "answer_imported": false,
+        "runtime_eligible": false,
+        "merged_into": "custom_dimensions"
+      },
+      {
+        "source_number": 16,
+        "question_en": "How does the custom production process work?",
+        "disposition": "merchant_review_or_exclude",
+        "route": "human",
+        "status": "blocked_conflict",
+        "answer_imported": false,
+        "runtime_eligible": false,
+        "merged_into": "custom_quote_method"
+      },
+      {
+        "source_number": 17,
+        "question_en": "What is included in the set?",
+        "disposition": "route_to_shopify",
+        "route": "shopify",
+        "status": "pending_review",
+        "answer_imported": false,
+        "runtime_eligible": false
+      },
+      {
+        "source_number": 18,
+        "question_en": "Is assembly required?",
+        "disposition": "route_to_shopify",
+        "route": "shopify",
+        "status": "pending_review",
+        "answer_imported": false,
+        "runtime_eligible": false
+      },
+      {
+        "source_number": 19,
+        "question_en": "How many boxes will the shipment include?",
+        "disposition": "merchant_review_or_exclude",
+        "route": "human",
+        "status": "blocked_conflict",
+        "answer_imported": false,
+        "runtime_eligible": false
+      },
+      {
+        "source_number": 20,
+        "question_en": "Why is a floor sofa more comfortable than a regular couch?",
+        "disposition": "merchant_review_or_exclude",
+        "route": "human",
+        "status": "blocked_conflict",
+        "answer_imported": false,
+        "runtime_eligible": false
+      },
+      {
+        "source_number": 21,
+        "question_en": "Is it suitable for long sitting hours?",
+        "disposition": "merchant_review_or_exclude",
+        "route": "human",
+        "status": "blocked_conflict",
+        "answer_imported": false,
+        "runtime_eligible": false
+      },
+      {
+        "source_number": 22,
+        "question_en": "What is the seating height?",
+        "disposition": "route_to_shopify",
+        "route": "shopify",
+        "status": "pending_review",
+        "answer_imported": false,
+        "runtime_eligible": false
+      },
+      {
+        "source_number": 23,
+        "question_en": "What is the seating depth?",
+        "disposition": "route_to_shopify",
+        "route": "shopify",
+        "status": "pending_review",
+        "answer_imported": false,
+        "runtime_eligible": false
+      },
+      {
+        "source_number": 24,
+        "question_en": "Can it be used on a carpet?",
+        "disposition": "include_static",
+        "route": "static",
+        "status": "pending_review",
+        "answer_imported": false,
+        "runtime_eligible": false
+      },
+      {
+        "source_number": 25,
+        "question_en": "Do the cushions sag over time?",
+        "disposition": "merchant_review_or_exclude",
+        "route": "human",
+        "status": "blocked_conflict",
+        "answer_imported": false,
+        "runtime_eligible": false
+      },
+      {
+        "source_number": 26,
+        "question_en": "Will the fabric fade in sunlight?",
+        "disposition": "merchant_review_or_exclude",
+        "route": "human",
+        "status": "blocked_conflict",
+        "answer_imported": false,
+        "runtime_eligible": false
+      },
+      {
+        "source_number": 27,
+        "question_en": "Is it suitable for homes with children?",
+        "disposition": "merchant_review_or_exclude",
+        "route": "human",
+        "status": "blocked_conflict",
+        "answer_imported": false,
+        "runtime_eligible": false
+      },
+      {
+        "source_number": 28,
+        "question_en": "Is it pet-friendly?",
+        "disposition": "route_to_shopify",
+        "route": "shopify",
+        "status": "pending_review",
+        "answer_imported": false,
+        "runtime_eligible": false
+      },
+      {
+        "source_number": 29,
+        "question_en": "How many people can it seat?",
+        "disposition": "route_to_shopify",
+        "route": "shopify",
+        "status": "pending_review",
+        "answer_imported": false,
+        "runtime_eligible": false
+      },
+      {
+        "source_number": 30,
+        "question_en": "Can I order replacement cushions?",
+        "disposition": "route_to_shopify",
+        "route": "shopify",
+        "status": "pending_review",
+        "answer_imported": false,
+        "runtime_eligible": false
+      },
+      {
+        "source_number": 31,
+        "question_en": "Do the sofas come with back support?",
+        "disposition": "route_to_shopify",
+        "route": "shopify",
+        "status": "pending_review",
+        "answer_imported": false,
+        "runtime_eligible": false
+      },
+      {
+        "source_number": 32,
+        "question_en": "Can I increase the backrest height?",
+        "disposition": "merchant_review_or_exclude",
+        "route": "human",
+        "status": "blocked_conflict",
+        "answer_imported": false,
+        "runtime_eligible": false
+      },
+      {
+        "source_number": 33,
+        "question_en": "What is the foam density?",
+        "disposition": "route_to_shopify",
+        "route": "shopify",
+        "status": "pending_review",
+        "answer_imported": false,
+        "runtime_eligible": false
+      },
+      {
+        "source_number": 34,
+        "question_en": "What is the fabric composition?",
+        "disposition": "route_to_shopify",
+        "route": "shopify",
+        "status": "pending_review",
+        "answer_imported": false,
+        "runtime_eligible": false
+      },
+      {
+        "source_number": 35,
+        "question_en": "Is it suitable for people with allergies?",
+        "disposition": "merchant_review_or_exclude",
+        "route": "human",
+        "status": "blocked_conflict",
+        "answer_imported": false,
+        "runtime_eligible": false
+      },
+      {
+        "source_number": 36,
+        "question_en": "Do the covers have zippers?",
+        "disposition": "route_to_shopify",
+        "route": "shopify",
+        "status": "pending_review",
+        "answer_imported": false,
+        "runtime_eligible": false
+      },
+      {
+        "source_number": 37,
+        "question_en": "Is there hand craftsmanship involved?",
+        "disposition": "include_static",
+        "route": "static",
+        "status": "pending_review",
+        "answer_imported": false,
+        "runtime_eligible": false
+      },
+      {
+        "source_number": 38,
+        "question_en": "How do you control quality?",
+        "disposition": "merchant_review_or_exclude",
+        "route": "human",
+        "status": "blocked_conflict",
+        "answer_imported": false,
+        "runtime_eligible": false
+      },
+      {
+        "source_number": 39,
+        "question_en": "Which fabric do you recommend for terraces?",
+        "disposition": "route_to_shopify",
+        "route": "shopify",
+        "status": "pending_review",
+        "answer_imported": false,
+        "runtime_eligible": false
+      },
+      {
+        "source_number": 40,
+        "question_en": "Do you ship worldwide?",
+        "disposition": "route_to_policy",
+        "route": "shipping_policy",
+        "status": "pending_review",
+        "answer_imported": false,
+        "runtime_eligible": false
+      },
+      {
+        "source_number": 41,
+        "question_en": "What is the delivery time for Europe?",
+        "disposition": "route_to_policy",
+        "route": "shipping_policy",
+        "status": "pending_review",
+        "answer_imported": false,
+        "runtime_eligible": false
+      },
+      {
+        "source_number": 42,
+        "question_en": "What is the delivery time for the United States?",
+        "disposition": "route_to_policy",
+        "route": "shipping_policy",
+        "status": "pending_review",
+        "answer_imported": false,
+        "runtime_eligible": false
+      },
+      {
+        "source_number": 43,
+        "question_en": "Do you ship within Turkey?",
+        "disposition": "route_to_policy",
+        "route": "shipping_policy",
+        "status": "pending_review",
+        "answer_imported": false,
+        "runtime_eligible": false
+      },
+      {
+        "source_number": 44,
+        "question_en": "Does the shipping time vary by city?",
+        "disposition": "route_to_policy",
+        "route": "shipping_policy",
+        "status": "pending_review",
+        "answer_imported": false,
+        "runtime_eligible": false
+      },
+      {
+        "source_number": 45,
+        "question_en": "What happens after I place my order?",
+        "disposition": "include_static",
+        "route": "static",
+        "status": "pending_review",
+        "answer_imported": false,
+        "runtime_eligible": false
+      },
+      {
+        "source_number": 46,
+        "question_en": "Do you provide a tracking number?",
+        "disposition": "route_to_policy",
+        "route": "shipping_policy",
+        "status": "pending_review",
+        "answer_imported": false,
+        "runtime_eligible": false
+      },
+      {
+        "source_number": 47,
+        "question_en": "Is there a minimum order requirement?",
+        "disposition": "route_to_shopify",
+        "route": "shopify",
+        "status": "pending_review",
+        "answer_imported": false,
+        "runtime_eligible": false
+      },
+      {
+        "source_number": 48,
+        "question_en": "Do you provide installation service?",
+        "disposition": "route_to_shopify",
+        "route": "shopify",
+        "status": "pending_review",
+        "answer_imported": false,
+        "runtime_eligible": false
+      },
+      {
+        "source_number": 49,
+        "question_en": "Who handles customs clearance?",
+        "disposition": "route_to_policy",
+        "route": "shipping_policy",
+        "status": "pending_review",
+        "answer_imported": false,
+        "runtime_eligible": false
+      },
+      {
+        "source_number": 50,
+        "question_en": "Will I pay extra customs fees?",
+        "disposition": "route_to_policy",
+        "route": "shipping_policy",
+        "status": "pending_review",
+        "answer_imported": false,
+        "runtime_eligible": false
+      },
+      {
+        "source_number": 51,
+        "question_en": "How do I place an order?",
+        "disposition": "route_to_shopify",
+        "route": "shopify",
+        "status": "pending_review",
+        "answer_imported": false,
+        "runtime_eligible": false
+      },
+      {
+        "source_number": 52,
+        "question_en": "Does production start immediately after ordering?",
+        "disposition": "merchant_review_or_exclude",
+        "route": "human",
+        "status": "blocked_conflict",
+        "answer_imported": false,
+        "runtime_eligible": false
+      },
+      {
+        "source_number": 53,
+        "question_en": "How long does production take?",
+        "disposition": "merchant_review_or_exclude",
+        "route": "human",
+        "status": "blocked_conflict",
+        "answer_imported": false,
+        "runtime_eligible": false
+      },
+      {
+        "source_number": 54,
+        "question_en": "Is express shipping truly free?",
+        "disposition": "route_to_policy",
+        "route": "shipping_policy",
+        "status": "pending_review",
+        "answer_imported": false,
+        "runtime_eligible": false
+      },
+      {
+        "source_number": 55,
+        "question_en": "Which courier companies do you use?",
+        "disposition": "route_to_policy",
+        "route": "shipping_policy",
+        "status": "pending_review",
+        "answer_imported": false,
+        "runtime_eligible": false
+      },
+      {
+        "source_number": 56,
+        "question_en": "Are there additional charges when ordering?",
+        "disposition": "route_to_policy",
+        "route": "shipping_policy",
+        "status": "pending_review",
+        "answer_imported": false,
+        "runtime_eligible": false
+      },
+      {
+        "source_number": 57,
+        "question_en": "How many boxes will I receive?",
+        "disposition": "merchant_review_or_exclude",
+        "route": "human",
+        "status": "blocked_conflict",
+        "answer_imported": false,
+        "runtime_eligible": false
+      },
+      {
+        "source_number": 58,
+        "question_en": "How do you package the products?",
+        "disposition": "include_static",
+        "route": "static",
+        "status": "pending_review",
+        "answer_imported": false,
+        "runtime_eligible": false
+      },
+      {
+        "source_number": 59,
+        "question_en": "Is delivery to the doorstep?",
+        "disposition": "route_to_policy",
+        "route": "shipping_policy",
+        "status": "pending_review",
+        "answer_imported": false,
+        "runtime_eligible": false
+      },
+      {
+        "source_number": 60,
+        "question_en": "Will the courier bring the boxes inside my home?",
+        "disposition": "route_to_policy",
+        "route": "shipping_policy",
+        "status": "pending_review",
+        "answer_imported": false,
+        "runtime_eligible": false
+      },
+      {
+        "source_number": 61,
+        "question_en": "Does the product require assembly?",
+        "disposition": "route_to_shopify",
+        "route": "shopify",
+        "status": "pending_review",
+        "answer_imported": false,
+        "runtime_eligible": false
+      },
+      {
+        "source_number": 62,
+        "question_en": "Can I change the measurements after ordering?",
+        "disposition": "merchant_review_or_exclude",
+        "route": "human",
+        "status": "blocked_conflict",
+        "answer_imported": false,
+        "runtime_eligible": false
+      },
+      {
+        "source_number": 63,
+        "question_en": "Can I change the color after ordering?",
+        "disposition": "merchant_review_or_exclude",
+        "route": "human",
+        "status": "blocked_conflict",
+        "answer_imported": false,
+        "runtime_eligible": false
+      },
+      {
+        "source_number": 64,
+        "question_en": "Can I cancel my order?",
+        "disposition": "merchant_review_or_exclude",
+        "route": "human",
+        "status": "blocked_conflict",
+        "answer_imported": false,
+        "runtime_eligible": false
+      },
+      {
+        "source_number": 65,
+        "question_en": "Can custom orders be canceled?",
+        "disposition": "merchant_review_or_exclude",
+        "route": "human",
+        "status": "blocked_conflict",
+        "answer_imported": false,
+        "runtime_eligible": false
+      },
+      {
+        "source_number": 66,
+        "question_en": "Will my order be delayed?",
+        "disposition": "route_to_policy",
+        "route": "shipping_policy",
+        "status": "pending_review",
+        "answer_imported": false,
+        "runtime_eligible": false
+      },
+      {
+        "source_number": 67,
+        "question_en": "When will I receive my tracking number?",
+        "disposition": "route_to_policy",
+        "route": "shipping_policy",
+        "status": "pending_review",
+        "answer_imported": false,
+        "runtime_eligible": false
+      },
+      {
+        "source_number": 68,
+        "question_en": "Can I request priority production?",
+        "disposition": "merchant_review_or_exclude",
+        "route": "human",
+        "status": "blocked_conflict",
+        "answer_imported": false,
+        "runtime_eligible": false
+      },
+      {
+        "source_number": 69,
+        "question_en": "Who handles customs procedures for US and EU shipments?",
+        "disposition": "route_to_policy",
+        "route": "shipping_policy",
+        "status": "pending_review",
+        "answer_imported": false,
+        "runtime_eligible": false
+      },
+      {
+        "source_number": 70,
+        "question_en": "Will I have to pay extra customs fees?",
+        "disposition": "route_to_policy",
+        "route": "shipping_policy",
+        "status": "pending_review",
+        "answer_imported": false,
+        "runtime_eligible": false
+      },
+      {
+        "source_number": 71,
+        "question_en": "Is there a risk of damage during international shipping?",
+        "disposition": "merchant_review_or_exclude",
+        "route": "human",
+        "status": "blocked_conflict",
+        "answer_imported": false,
+        "runtime_eligible": false
+      },
+      {
+        "source_number": 72,
+        "question_en": "What do I do if my product arrives damaged?",
+        "disposition": "route_to_policy",
+        "route": "complaint_or_damage",
+        "status": "pending_review",
+        "answer_imported": false,
+        "runtime_eligible": false
+      },
+      {
+        "source_number": 73,
+        "question_en": "What if something is missing from my order?",
+        "disposition": "merchant_review_or_exclude",
+        "route": "human",
+        "status": "blocked_conflict",
+        "answer_imported": false,
+        "runtime_eligible": false
+      },
+      {
+        "source_number": 74,
+        "question_en": "Who pays shipping if a product must be returned?",
+        "disposition": "route_to_policy",
+        "route": "refund_policy",
+        "status": "pending_review",
+        "answer_imported": false,
+        "runtime_eligible": false
+      },
+      {
+        "source_number": 75,
+        "question_en": "What is your return policy?",
+        "disposition": "route_to_policy",
+        "route": "refund_policy",
+        "status": "pending_review",
+        "answer_imported": false,
+        "runtime_eligible": false
+      },
+      {
+        "source_number": 77,
+        "question_en": "What payment methods do you accept?",
+        "disposition": "route_to_shopify",
+        "route": "shopify",
+        "status": "pending_review",
+        "answer_imported": false,
+        "runtime_eligible": false
+      },
+      {
+        "source_number": 78,
+        "question_en": "Are payments secure?",
+        "disposition": "route_to_shopify",
+        "route": "shopify",
+        "status": "pending_review",
+        "answer_imported": false,
+        "runtime_eligible": false
+      },
+      {
+        "source_number": 79,
+        "question_en": "Are taxes included in the price?",
+        "disposition": "route_to_policy",
+        "route": "shipping_policy",
+        "status": "pending_review",
+        "answer_imported": false,
+        "runtime_eligible": false
+      },
+      {
+        "source_number": 80,
+        "question_en": "Do you send fabric samples?",
+        "disposition": "route_to_shopify",
+        "route": "shopify",
+        "status": "pending_review",
+        "answer_imported": false,
+        "runtime_eligible": false
+      },
+      {
+        "source_number": 81,
+        "question_en": "Do I need to see the fabric before ordering?",
+        "disposition": "include_static",
+        "route": "static",
+        "status": "pending_review",
+        "answer_imported": false,
+        "runtime_eligible": false
+      },
+      {
+        "source_number": 82,
+        "question_en": "Do you offer bulk-order discounts?",
+        "disposition": "merchant_review_or_exclude",
+        "route": "human",
+        "status": "blocked_conflict",
+        "answer_imported": false,
+        "runtime_eligible": false
+      },
+      {
+        "source_number": 83,
+        "question_en": "Do you work with hotels, restaurants, or cafés?",
+        "disposition": "include_static",
+        "route": "static",
+        "status": "retired",
+        "answer_imported": false,
+        "runtime_eligible": false,
+        "merged_into": "projects_and_wholesale"
+      },
+      {
+        "source_number": 84,
+        "question_en": "Can you send production photos or videos?",
+        "disposition": "merchant_review_or_exclude",
+        "route": "human",
+        "status": "blocked_conflict",
+        "answer_imported": false,
+        "runtime_eligible": false
+      },
+      {
+        "source_number": 85,
+        "question_en": "Why are the modules shipped separately?",
+        "disposition": "include_static",
+        "route": "static",
+        "status": "pending_review",
+        "answer_imported": false,
+        "runtime_eligible": false
+      },
+      {
+        "source_number": 86,
+        "question_en": "Do the modules attach magnetically?",
+        "disposition": "route_to_shopify",
+        "route": "shopify",
+        "status": "pending_review",
+        "answer_imported": false,
+        "runtime_eligible": false
+      },
+      {
+        "source_number": 87,
+        "question_en": "Do the products contain chemical odors?",
+        "disposition": "merchant_review_or_exclude",
+        "route": "human",
+        "status": "blocked_conflict",
+        "answer_imported": false,
+        "runtime_eligible": false
+      },
+      {
+        "source_number": 88,
+        "question_en": "Can I choose water-resistant fabric?",
+        "disposition": "route_to_shopify",
+        "route": "shopify",
+        "status": "pending_review",
+        "answer_imported": false,
+        "runtime_eligible": false
+      },
+      {
+        "source_number": 89,
+        "question_en": "Will the cushions lose shape after washing?",
+        "disposition": "merchant_review_or_exclude",
+        "route": "human",
+        "status": "blocked_conflict",
+        "answer_imported": false,
+        "runtime_eligible": false
+      },
+      {
+        "source_number": 90,
+        "question_en": "Can I change the cushion filling?",
+        "disposition": "merchant_review_or_exclude",
+        "route": "human",
+        "status": "blocked_conflict",
+        "answer_imported": false,
+        "runtime_eligible": false
+      },
+      {
+        "source_number": 91,
+        "question_en": "Can I order replacement covers later?",
+        "disposition": "route_to_shopify",
+        "route": "shopify",
+        "status": "pending_review",
+        "answer_imported": false,
+        "runtime_eligible": false
+      },
+      {
+        "source_number": 92,
+        "question_en": "Can I use fabric protector sprays?",
+        "disposition": "merchant_review_or_exclude",
+        "route": "human",
+        "status": "blocked_conflict",
+        "answer_imported": false,
+        "runtime_eligible": false
+      },
+      {
+        "source_number": 93,
+        "question_en": "How long will the product last?",
+        "disposition": "merchant_review_or_exclude",
+        "route": "human",
+        "status": "blocked_conflict",
+        "answer_imported": false,
+        "runtime_eligible": false
+      },
+      {
+        "source_number": 94,
+        "question_en": "Will the stitching come apart over time?",
+        "disposition": "merchant_review_or_exclude",
+        "route": "human",
+        "status": "blocked_conflict",
+        "answer_imported": false,
+        "runtime_eligible": false
+      },
+      {
+        "source_number": 95,
+        "question_en": "Do you perform quality tests?",
+        "disposition": "merchant_review_or_exclude",
+        "route": "human",
+        "status": "blocked_conflict",
+        "answer_imported": false,
+        "runtime_eligible": false
+      },
+      {
+        "source_number": 96,
+        "question_en": "Does the product require maintenance?",
+        "disposition": "route_to_shopify",
+        "route": "shopify",
+        "status": "pending_review",
+        "answer_imported": false,
+        "runtime_eligible": false
+      },
+      {
+        "source_number": 97,
+        "question_en": "How do I remove stains?",
+        "disposition": "route_to_shopify",
+        "route": "shopify",
+        "status": "pending_review",
+        "answer_imported": false,
+        "runtime_eligible": false
+      },
+      {
+        "source_number": 98,
+        "question_en": "Do you recommend any special care products?",
+        "disposition": "route_to_shopify",
+        "route": "shopify",
+        "status": "pending_review",
+        "answer_imported": false,
+        "runtime_eligible": false
+      },
+      {
+        "source_number": 99,
+        "question_en": "Do the cushions slide over time?",
+        "disposition": "route_to_shopify",
+        "route": "shopify",
+        "status": "pending_review",
+        "answer_imported": false,
+        "runtime_eligible": false
+      },
+      {
+        "source_number": 100,
+        "question_en": "Can I leave the sofa outside permanently?",
+        "disposition": "route_to_shopify",
+        "route": "shopify",
+        "status": "pending_review",
+        "answer_imported": false,
+        "runtime_eligible": false
+      }
+    ],
+    "source_answers_imported": false,
+    "treatment": "stable definitions and workflows prepared for owner review; mutable claims routed to Shopify, canonical policy files, verified orders, or humans"
+  },
+  "policy_audit": {
+    "canonical_agent_description": "https://arabicsofa.com/agents.md",
+    "refund_source": "https://arabicsofa.com/policies/refund-policy",
+    "shipping_source": "https://arabicsofa.com/policies/shipping-policy",
+    "verified_at": "2026-09-15",
+    "source_snapshots": {
+      "refund_policy": {
+        "relative_path": "policies/en/refund-policy.md",
+        "sha256": "b50df32eed7ea4efa735440c460a3d883e0b91677e740880ed0f6f515316b568",
+        "bytes": 2170,
+        "verified_at": "2026-09-15"
+      },
+      "shipping_policy": {
+        "relative_path": "policies/en/shipping-policy.md",
+        "sha256": "5a8b03825020e975b09798640889e7be1a1794cff2a304d4c0107fcd902e859f",
+        "bytes": 1739,
+        "verified_at": "2026-09-15"
+      }
+    },
+    "contact_details_exported": false,
+    "reason_contact_details_excluded": "official pages disagree on email, address purpose, and a placeholder phone is present"
+  },
+  "conflicts_removed_from_runtime_data": [
+    "shipping times differ across official policy, old macros, product pages, blogs, and internal FAQ",
+    "production time differs across articles and macros and is absent from the canonical shipping policy",
+    "foam density differs between old and new content",
+    "fabric and color counts differ across pages",
+    "customs and tax claims conflict with the canonical shipping policy",
+    "historical country allow and deny lists conflict with worldwide wording and checkout availability",
+    "warranty, pricing, payment, promotion, and product-component claims may change",
+    "custom-order and price-quote pages currently render return-policy content",
+    "Arabic policy URLs currently contain untranslated English policy bodies"
+  ],
+  "output_roles": {
+    "style_reference.json": "runtime tone and behavior",
+    "static_faq_candidates.jsonl": "audited promotion queue; not queried at runtime",
+    "playbook_candidates.json": "runtime routing and interaction workflows",
+    "evaluation_cases.jsonl": "offline tests only; never retrieval context",
+    "editable_knowledge/faq.json": "owner-editable FAQ draft; approval-gated and runtime-ineligible until reviewed",
+    "editable_knowledge/refund_policy.json": "owner-editable canonical refund and return draft; runtime-ineligible until reviewed",
+    "editable_knowledge/shipping_policy.json": "owner-editable canonical shipping draft; runtime-ineligible until reviewed",
+    "extraction_report.json": "audit and wiring manifest; never customer-facing context"
+  },
+  "output_counts": {
+    "normalized_style_examples": 18,
+    "static_faq_candidates": 8,
+    "playbooks": 11,
+    "evaluation_cases": 75,
+    "prepared_faq_entries": 8,
+    "runtime_faq_entries_before_owner_approval": 0,
+    "policy_files": 2,
+    "runtime_policy_files_before_owner_approval": 0
+  },
+  "privacy_and_quality": {
+    "raw_conversations_exported": false,
+    "raw_customer_messages_exported": false,
+    "raw_employee_messages_exported": false,
+    "employee_identities_exported": false,
+    "attachments_exported": false,
+    "product_catalog_snapshot_exported": false,
+    "rejected_examples_exported": false,
+    "output_pii_scans": {
+      "style_reference": {
+        "emails": 0,
+        "phone_numbers": 0,
+        "order_numbers": 0,
+        "employee_names": 0
+      },
+      "static_faq_candidates": {
+        "emails": 0,
+        "phone_numbers": 0,
+        "order_numbers": 0,
+        "employee_names": 0
+      },
+      "playbook_candidates": {
+        "emails": 0,
+        "phone_numbers": 0,
+        "order_numbers": 0,
+        "employee_names": 0
+      },
+      "evaluation_cases": {
+        "emails": 0,
+        "phone_numbers": 0,
+        "order_numbers": 0,
+        "employee_names": 0
+      },
+      "faq": {
+        "emails": 0,
+        "phone_numbers": 0,
+        "order_numbers": 0,
+        "employee_names": 0
+      },
+      "refund_policy": {
+        "emails": 0,
+        "phone_numbers": 0,
+        "order_numbers": 0,
+        "employee_names": 0
+      },
+      "shipping_policy": {
+        "emails": 0,
+        "phone_numbers": 0,
+        "order_numbers": 0,
+        "employee_names": 0
+      }
+    },
+    "output_sha256": {
+      "style_reference": "be819af97031320d4ed512060381355d1c8245b2661020c6117e386717ddb132",
+      "static_faq_candidates": "cf5d0a1680ad39344c601d99656ad89a6a3fab47aa60e3b273dc727ee2d6c51b",
+      "playbook_candidates": "79e890fab088eb0c8db58e6573ef6290dbe729a81fe5a70d1d0c9235bb9cc317",
+      "evaluation_cases": "3cdbee7a652f842e0589377aef4676b0b6cdb5270cd96ae61a453e348f82a85c",
+      "faq": "564bab25fc46ab1379d5d649979f904336711b0730ae42a6be2e3ef384d59e1a",
+      "refund_policy": "fcdadf80ddc252a7f925ba422f8c367f65d73aa413903ec03757cc85daa7e1c5",
+      "shipping_policy": "321d93e080a7a9fce3b98e0c653cd41f11e2bac15c7daa52d95010671ff86587"
+    },
+    "semantic_validation": {
+      "route_registry_validated": true,
+      "faq_aliases_and_promotions_validated": true,
+      "approval_gates_validated": true,
+      "canonical_policy_source_snapshots_validated": true,
+      "evaluation_policy_content_hashes_validated": true,
+      "customer_facing_contact_currency_and_implementation_scan": "pass"
+    }
+  },
+  "merged_benefits_from_omitted_files": {
+    "intent_examples": "Merged as trigger_examples inside playbook_candidates.json.",
+    "special_request_examples": "Merged into custom_order and bulk_order playbooks and evaluation cases.",
+    "rejected_examples": "Only aggregate exclusion reasons and forbidden behaviors are retained.",
+    "cleaned_conversations": "Cleaning and aggregation happen in-stream; no sensitive duplicate archive is created.",
+    "raw_media": "Attachment paths, extensions, sizes, and hashes are inventoried for scope and deduplication only; media content is not used and no media is exported."
+  }
+}

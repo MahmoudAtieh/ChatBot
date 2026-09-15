@@ -1,0 +1,84 @@
+{
+  "schema_version": 1,
+  "policy": "shipping",
+  "store": {
+    "name": "Arabic Sofa",
+    "domain": "arabicsofa.com"
+  },
+  "canonical_source_url": "https://arabicsofa.com/policies/shipping-policy",
+  "verified_at": "2026-09-15",
+  "source_snapshot": {
+    "relative_path": "policies/en/shipping-policy.md",
+    "sha256": "5a8b03825020e975b09798640889e7be1a1794cff2a304d4c0107fcd902e859f",
+    "bytes": 1739,
+    "verified_at": "2026-09-15"
+  },
+  "review_status": "pending_owner_review",
+  "official_source_verified": true,
+  "runtime_eligible": false,
+  "activation_rule": "Merchant reviews edits, sets review_status to approved, then sets runtime_eligible to true.",
+  "summary": {
+    "ar": "يوفر المتجر شحناً سريعاً مجانياً بحسب السياسة الحالية. تبدأ مدد النقل بعد تجهيز الطلب وتسليمه لشركة الشحن، ولا تشمل مدة التصنيع أو التجهيز.",
+    "en": "The current policy offers free express shipping. Transit estimates begin only after the order is prepared and handed to the carrier; they do not include production or preparation time."
+  },
+  "rules": {
+    "shipping_charge": {
+      "ar": "شحن سريع مجاني",
+      "en": "Free express shipping"
+    },
+    "carriers": [
+      "DHL",
+      "FedEx",
+      "UPS"
+    ],
+    "transit_estimates_after_dispatch": [
+      {
+        "region": "USA and Canada",
+        "business_days": {
+          "min": 4,
+          "max": 5
+        }
+      },
+      {
+        "region": "Europe and UK",
+        "business_days": {
+          "min": 3,
+          "max": 4
+        }
+      },
+      {
+        "region": "Rest of the world",
+        "business_days": {
+          "min": 5,
+          "max": 7
+        }
+      }
+    ],
+    "customs_and_import_fees": {
+      "customer_responsible": true,
+      "ar": "قد تُفرض ضرائب استيراد أو رسوم جمركية أو وساطة حسب بلد العميل، ويتحملها العميل.",
+      "en": "Import taxes, customs duties, or brokerage fees may apply under the destination country's rules and are the customer's responsibility."
+    },
+    "refused_for_unpaid_customs": {
+      "ar": "إذا رُفضت الشحنة بسبب رسوم جمركية غير مدفوعة وأُعيدت، تُخصم تكاليف الإرجاع ومصاريف الشحن الأصلية من المبلغ المسترد.",
+      "en": "If a shipment is refused for unpaid customs fees and returned, return costs and original shipping expenses are deducted from the refund."
+    },
+    "delay_exclusions": [
+      "customs clearance",
+      "carrier logistics",
+      "extreme weather",
+      "unforeseen global events"
+    ],
+    "tracking": {
+      "ar": "يرسل رقم التتبع عبر البريد الإلكتروني بعد شحن الطلب.",
+      "en": "The tracking number is sent by email after dispatch."
+    }
+  },
+  "bot_rules": [
+    "Treat all transit windows as estimates, not guarantees.",
+    "Never add a production or preparation estimate; it is not stated in this policy.",
+    "Verify whether a specific country can be served through live Shopify checkout or a human; do not use historical country lists.",
+    "For an existing shipment, use verified order and carrier data rather than the generic estimate.",
+    "Do not expose contact details from historical pages; hand off through the configured support channel."
+  ]
+}
