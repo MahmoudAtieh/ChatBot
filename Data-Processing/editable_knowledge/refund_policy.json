@@ -13,9 +13,9 @@
     "bytes": 2170,
     "verified_at": "2026-09-15"
   },
-  "review_status": "pending_owner_review",
+  "review_status": "approved",
   "official_source_verified": true,
-  "runtime_eligible": false,
+  "runtime_eligible": true,
   "activation_rule": "Merchant reviews edits, sets review_status to approved, then sets runtime_eligible to true.",
   "summary": {
     "ar": "يمكن طلب إرجاع مؤهل خلال 14 يوماً من الاستلام. تختلف المسؤولية والإجراء بحسب ما إذا كان المنتج تالفاً أو معيباً، أو كان الطلب بسبب تغيير الرأي.",

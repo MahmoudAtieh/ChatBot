@@ -5,9 +5,9 @@
     "domain": "arabicsofa.com"
   },
   "purpose": "owner-review FAQ draft containing only stable definitions and processes",
-  "review_status": "pending_owner_review",
+  "review_status": "approved",
   "quality_audited": true,
-  "runtime_eligible": false,
+  "runtime_eligible": true,
   "activation_rule": "Merchant reviews the prepared entries, changes accepted entries to approved, then sets the file runtime_eligible to true.",
   "runtime_loader_rule": "Load only entries whose status is approved and only when this file runtime_eligible is true.",
   "language_policy": "Answer in the customer's language; Arabic and English answers are equivalent.",
@@ -42,8 +42,8 @@
       "source_basis": [
         "intercom_internal_faq_question_1"
       ],
-      "runtime_eligible": false,
-      "status": "pending_review",
+      "runtime_eligible": true,
+      "status": "approved",
       "route": "static_faq"
     },
     {
@@ -67,8 +67,8 @@
         "whatsapp_repeated_workflow",
         "intercom_internal_faq_question_15"
       ],
-      "runtime_eligible": false,
-      "status": "pending_review",
+      "runtime_eligible": true,
+      "status": "approved",
       "route": "custom_order"
     },
     {
@@ -93,8 +93,8 @@
         "intercom_macros",
         "official_project_form"
       ],
-      "runtime_eligible": false,
-      "status": "pending_review",
+      "runtime_eligible": true,
+      "status": "approved",
       "route": "custom_order"
     },
     {
@@ -117,8 +117,8 @@
       "source_basis": [
         "whatsapp_repeated_workflow"
       ],
-      "runtime_eligible": false,
-      "status": "pending_review",
+      "runtime_eligible": true,
+      "status": "approved",
       "route": "custom_order"
     },
     {
@@ -141,8 +141,8 @@
       "source_basis": [
         "whatsapp_repeated_workflow"
       ],
-      "runtime_eligible": false,
-      "status": "pending_review",
+      "runtime_eligible": true,
+      "status": "approved",
       "route": "custom_order"
     },
     {
@@ -166,8 +166,8 @@
         "whatsapp_repeated_workflow",
         "intercom_internal_faq_question_16"
       ],
-      "runtime_eligible": false,
-      "status": "pending_review",
+      "runtime_eligible": true,
+      "status": "approved",
       "route": "custom_order"
     },
     {
@@ -191,8 +191,8 @@
         "official_projects_and_wholesale_page",
         "conversation_workflows"
       ],
-      "runtime_eligible": false,
-      "status": "pending_review",
+      "runtime_eligible": true,
+      "status": "approved",
       "route": "bulk_order"
     },
     {
@@ -216,8 +216,8 @@
         "customer_support_conversation_workflow"
       ],
       "policy_note": "The official refund policy does not require photos or video as an eligibility condition.",
-      "runtime_eligible": false,
-      "status": "pending_review",
+      "runtime_eligible": true,
+      "status": "approved",
       "route": "complaint_or_damage"
     }
   ],

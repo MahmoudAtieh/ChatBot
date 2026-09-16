@@ -42,6 +42,10 @@ async function createDataDirectoryWithOneApprovedFaq(): Promise<string> {
   };
   faq.review_status = "approved";
   faq.runtime_eligible = true;
+  for (const entry of faq.entries) {
+    entry.status = "pending_review";
+    entry.runtime_eligible = false;
+  }
   faq.entries[0]!.status = "approved";
   faq.entries[0]!.runtime_eligible = true;
   await writeFile(targetFaq, JSON.stringify(faq), "utf8");

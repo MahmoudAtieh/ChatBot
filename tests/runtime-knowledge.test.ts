@@ -15,14 +15,26 @@ describe("RuntimeKnowledge", () => {
     expect(knowledge.stablePrompt).not.toContain("business_text_messages_reviewed");
     expect(knowledge.stablePrompt).not.toContain("evaluation_cases.jsonl");
     expect(knowledge.stablePrompt).not.toContain("extraction_report.json");
+    expect(knowledge.stablePrompt).not.toContain("Free express shipping");
+    expect(knowledge.stablePrompt).not.toContain("return_window_days_from_delivery");
+    expect(knowledge.stablePrompt).not.toContain("Measure each wall section");
   });
 
-  it("fails closed while FAQ and policies await owner approval", async () => {
+  it("exposes owner-approved FAQ and policy facts through lookups", async () => {
     const knowledge = await RuntimeKnowledge.load(dataDirectory);
 
-    expect(knowledge.lookupFaq("كيف أقيس الغرفة؟", "ar")).toMatchObject({ available: false });
-    expect(knowledge.getPolicy("shipping", "ar")).toMatchObject({ available: false });
-    expect(knowledge.getPolicy("refund_and_return", "en")).toMatchObject({ available: false });
+    expect(knowledge.lookupFaq("كيف أقيس الغرفة؟", "ar")).toMatchObject({
+      available: true,
+      entry: { id: "how_to_measure_room", factSourceId: "faq:how_to_measure_room" },
+    });
+    expect(knowledge.getPolicy("shipping", "ar")).toMatchObject({
+      available: true,
+      policy: { type: "shipping" },
+    });
+    expect(knowledge.getPolicy("refund_and_return", "en")).toMatchObject({
+      available: true,
+      policy: { type: "refund_and_return" },
+    });
   });
 
   it("exposes the exact approved style responses for deterministic fast paths", async () => {

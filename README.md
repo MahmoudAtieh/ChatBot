@@ -8,7 +8,7 @@
 
 - رد سريع بدون LLM للتحية، الشكر، والتنبيه عند إرسال بيانات دفع حساسة.
 - تحميل `style_reference.json` و`playbook_candidates.json` من `./Data-Processing` والتحقق الصارم من بنيتهما وهوية المتجر.
-- عدم تفعيل FAQ وسياسات الشحن والاسترجاع إلا بعد اعتماد الملف والمدخلات صراحةً.
+- تحميل FAQ وسياسات الشحن والاسترجاع المعتمدة فقط، مع إبقائها خارج التعليمات الثابتة واستدعائها عند الحاجة.
 - OpenAI Responses API مع Structured Outputs ودورتين كحد أقصى لاستدعاء الأدوات.
 - أدوات محدودة: بحث Shopify، FAQ، السياسات، وتجهيز التحويل لموظف.
 - Shopify Admin GraphQL باستعلام يملكه السيرفر وصلاحية قراءة فقط؛ الـAI لا يستطيع إرسال GraphQL خام.
@@ -100,20 +100,15 @@ QUEUE_ENCRYPTION_ACTIVE_KEY_ID=2026-09
 
 الطابور الدائم يعمل فقط مع PostgreSQL. البديل in-memory مناسب للتطوير، لكنه يفقد الرسائل عند إعادة تشغيل العملية ولا يعطي ضمان الاستعادة. عند النجاح أو الوصول إلى `dead` تُمسح حمولة الطابور المشفرة ويُحتفظ بالحالة ورمز الخطأ فقط. التسليم إلى Meta هو **at-least-once**: في الحالة النادرة التي تقبل فيها Meta الرد ثم تتعطل العملية قبل تسجيل `done`، قد يعيد الـworker إرسال الرد. لا يمكن ضمان exactly-once دون مفتاح idempotency معتمد من مزود الإرسال.
 
-## تفعيل FAQ والسياسات
+## FAQ والسياسات المعتمدة
 
-حالياً هذه الملفات مقفلة عمداً لأنها `pending_owner_review` و`runtime_eligible: false`:
+هذه الملفات معتمدة حالياً وفعالة أثناء التشغيل (`review_status: approved` و`runtime_eligible: true`):
 
 - `editable_knowledge/faq.json`
 - `editable_knowledge/refund_policy.json`
 - `editable_knowledge/shipping_policy.json`
 
-للتفعيل بعد مراجعة صاحب المتجر:
-
-1. غيّر `review_status` للملف إلى `approved`.
-2. غيّر `runtime_eligible` للملف إلى `true`.
-3. في FAQ فقط: اجعل كل مدخل مقبول `status: "approved"` و`runtime_eligible: true`.
-4. أعد تشغيل السيرفر؛ لا يوجد file watcher مقصوداً.
+بعد تعديل أي معلومة، راجعها ثم أعد تشغيل السيرفر؛ لا يوجد file watcher مقصوداً. لا يضع النظام هذه الحقائق كلها في الـprompt، بل يصل إليها عبر أدوات FAQ والسياسات عند الحاجة.
 
 لا تُحمّل ملفات `static_faq_candidates.jsonl` أو `evaluation_cases.jsonl` أو `extraction_report.json` أثناء التشغيل.
 

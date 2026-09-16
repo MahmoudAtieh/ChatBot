@@ -13,9 +13,9 @@
     "bytes": 1739,
     "verified_at": "2026-09-15"
   },
-  "review_status": "pending_owner_review",
+  "review_status": "approved",
   "official_source_verified": true,
-  "runtime_eligible": false,
+  "runtime_eligible": true,
   "activation_rule": "Merchant reviews edits, sets review_status to approved, then sets runtime_eligible to true.",
   "summary": {
     "ar": "يوفر المتجر شحناً سريعاً مجانياً بحسب السياسة الحالية. تبدأ مدد النقل بعد تجهيز الطلب وتسليمه لشركة الشحن، ولا تشمل مدة التصنيع أو التجهيز.",
