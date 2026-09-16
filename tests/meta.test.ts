@@ -6,8 +6,8 @@ import {
   extractWhatsAppMessages,
   registerMetaWebhook,
   verifyMetaSignature,
+  type InboundMessageEnqueuer,
 } from "../src/meta.js";
-import type { WhatsAppMessageProcessor } from "../src/processor.js";
 
 const secret = "test-app-secret";
 
@@ -118,7 +118,7 @@ describe("Meta payload extraction", () => {
 });
 
 describe("Meta webhook routes", () => {
-  function makeApp(processor: Pick<WhatsAppMessageProcessor, "claim" | "processClaimed">) {
+  function makeApp(enqueuer: InboundMessageEnqueuer) {
     const app = express();
     registerMetaWebhook(
       app,
@@ -127,15 +127,15 @@ describe("Meta webhook routes", () => {
         phoneNumberId: "phone-1",
         webhookVerifyToken: "verify-me",
       },
-      processor as WhatsAppMessageProcessor,
+      enqueuer,
       { info: vi.fn(), error: vi.fn() },
     );
     return app;
   }
 
   it("verifies the GET challenge", async () => {
-    const processor = { claim: vi.fn(), processClaimed: vi.fn() };
-    const app = makeApp(processor);
+    const enqueuer = { enqueue: vi.fn() };
+    const app = makeApp(enqueuer);
 
     await request(app)
       .get("/webhooks/meta/whatsapp")
@@ -147,34 +147,48 @@ describe("Meta webhook routes", () => {
       .expect(403);
   });
 
-  it("acknowledges a valid claimed message before waiting for its slow processing", async () => {
-    let releaseProcessing!: () => void;
-    const processing = new Promise<void>((resolve) => {
-      releaseProcessing = resolve;
+  it("does not acknowledge a valid message until durable enqueue finishes", async () => {
+    let releaseEnqueue!: () => void;
+    let signalEnqueueStarted!: () => void;
+    const enqueueStarted = new Promise<void>((resolve) => {
+      signalEnqueueStarted = resolve;
     });
-    const processor = {
-      claim: vi.fn(async () => true),
-      processClaimed: vi.fn(async () => processing),
+    const pendingEnqueue = new Promise<void>((resolve) => {
+      releaseEnqueue = resolve;
+    });
+    const enqueuer: InboundMessageEnqueuer = {
+      enqueue: vi.fn(async () => {
+        signalEnqueueStarted();
+        await pendingEnqueue;
+        return true;
+      }),
     };
-    const app = makeApp(processor);
+    const app = makeApp(enqueuer);
     const body = JSON.stringify(webhookBody());
+    let responseSettled = false;
 
-    await request(app)
+    const responsePromise = request(app)
       .post("/webhooks/meta/whatsapp")
       .set("Content-Type", "application/json")
       .set("X-Hub-Signature-256", signature(body))
       .send(body)
-      .expect(200);
+      .expect(200)
+      .then(() => {
+        responseSettled = true;
+      });
 
+    await enqueueStarted;
     await new Promise((resolve) => setImmediate(resolve));
-    expect(processor.claim).toHaveBeenCalledOnce();
-    expect(processor.processClaimed).toHaveBeenCalledOnce();
-    releaseProcessing();
+    expect(enqueuer.enqueue).toHaveBeenCalledOnce();
+    expect(responseSettled).toBe(false);
+    releaseEnqueue();
+    await responsePromise;
+    expect(responseSettled).toBe(true);
   });
 
-  it("rejects an invalid POST signature before claiming", async () => {
-    const processor = { claim: vi.fn(), processClaimed: vi.fn() };
-    const app = makeApp(processor);
+  it("rejects an invalid POST signature before enqueueing", async () => {
+    const enqueuer = { enqueue: vi.fn() };
+    const app = makeApp(enqueuer);
 
     await request(app)
       .post("/webhooks/meta/whatsapp")
@@ -182,12 +196,12 @@ describe("Meta webhook routes", () => {
       .set("X-Hub-Signature-256", `sha256=${"0".repeat(64)}`)
       .send(webhookBody())
       .expect(401);
-    expect(processor.claim).not.toHaveBeenCalled();
+    expect(enqueuer.enqueue).not.toHaveBeenCalled();
   });
 
   it("verifies the signature before attempting to parse JSON", async () => {
-    const processor = { claim: vi.fn(), processClaimed: vi.fn() };
-    const app = makeApp(processor);
+    const enqueuer = { enqueue: vi.fn() };
+    const app = makeApp(enqueuer);
     const malformed = '{"entry":';
 
     await request(app)
@@ -204,7 +218,7 @@ describe("Meta webhook routes", () => {
       .expect(400);
   });
 
-  it("still schedules successful claims when another claim fails", async () => {
+  it("returns 500 if any message cannot be persisted, after attempting the whole batch", async () => {
     const payload = webhookBody("first");
     payload.entry[0]!.changes[0]!.value.messages.push({
       id: "wamid.2",
@@ -213,14 +227,13 @@ describe("Meta webhook routes", () => {
       type: "text",
       text: { body: "second" },
     });
-    const processor = {
-      claim: vi
+    const enqueuer = {
+      enqueue: vi
         .fn()
         .mockResolvedValueOnce(true)
         .mockRejectedValueOnce(new Error("database unavailable")),
-      processClaimed: vi.fn(async (_message: { id: string }) => undefined),
     };
-    const app = makeApp(processor);
+    const app = makeApp(enqueuer);
     const body = JSON.stringify(payload);
 
     await request(app)
@@ -230,8 +243,25 @@ describe("Meta webhook routes", () => {
       .send(body)
       .expect(500);
 
-    await new Promise((resolve) => setImmediate(resolve));
-    expect(processor.processClaimed).toHaveBeenCalledOnce();
-    expect(processor.processClaimed.mock.calls[0]?.[0]?.id).toBe("wamid.1");
+    expect(enqueuer.enqueue).toHaveBeenCalledTimes(2);
+    expect(enqueuer.enqueue.mock.calls.map(([message]) => message.id)).toEqual([
+      "wamid.1",
+      "wamid.2",
+    ]);
+  });
+
+  it("acknowledges an already-enqueued duplicate without running processing inline", async () => {
+    const enqueuer = { enqueue: vi.fn(async () => false) };
+    const app = makeApp(enqueuer);
+    const body = JSON.stringify(webhookBody());
+
+    await request(app)
+      .post("/webhooks/meta/whatsapp")
+      .set("Content-Type", "application/json")
+      .set("X-Hub-Signature-256", signature(body))
+      .send(body)
+      .expect(200);
+
+    expect(enqueuer.enqueue).toHaveBeenCalledOnce();
   });
 });

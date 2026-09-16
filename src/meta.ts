@@ -1,7 +1,11 @@
 import { createHmac, timingSafeEqual } from "node:crypto";
 import express, { type Express } from "express";
 import type { IncomingWhatsAppMessage } from "./domain.js";
-import type { MessageSender, WhatsAppMessageProcessor } from "./processor.js";
+import type { MessageSender } from "./processor.js";
+
+export interface InboundMessageEnqueuer {
+  enqueue(message: IncomingWhatsAppMessage): Promise<boolean>;
+}
 
 export interface MetaWhatsAppOptions {
   accessToken?: string;
@@ -70,7 +74,7 @@ export class MetaWhatsAppClient implements MessageSender {
 export function registerMetaWebhook(
   app: Express,
   options: MetaWhatsAppOptions,
-  processor: WhatsAppMessageProcessor,
+  enqueuer: InboundMessageEnqueuer,
   logger: WebhookLogger = console,
 ): void {
   app.get("/webhooks/meta/whatsapp", (request, response) => {
@@ -117,23 +121,17 @@ export function registerMetaWebhook(
 
       const messages = extractWhatsAppMessages(payload, options.phoneNumberId);
       try {
-        const claimResults = await Promise.allSettled(
-          messages.map(async (message) => ({ message, claimed: await processor.claim(message) })),
+        const enqueueResults = await Promise.allSettled(
+          messages.map((message) => enqueuer.enqueue(message)),
         );
-        const successfullyClaimed = claimResults.flatMap((result) =>
-          result.status === "fulfilled" && result.value.claimed ? [result.value.message] : [],
-        );
-
-        for (const message of successfullyClaimed) scheduleProcessing(message, processor, logger);
-
-        if (claimResults.some((result) => result.status === "rejected")) {
-          logger.error("Could not persist some inbound WhatsApp message metadata.");
+        if (enqueueResults.some((result) => result.status === "rejected")) {
+          logger.error("Could not persist some inbound WhatsApp messages.");
           response.sendStatus(500);
           return;
         }
         response.sendStatus(200);
       } catch {
-        logger.error("Could not persist inbound WhatsApp message metadata.");
+        logger.error("Could not persist inbound WhatsApp messages.");
         response.sendStatus(500);
       }
     },
@@ -225,20 +223,4 @@ function isRecord(value: unknown): value is Record<string, unknown> {
 
 function stringValue(value: unknown): string | undefined {
   return typeof value === "string" ? value : undefined;
-}
-
-function safeId(value: string): string {
-  return value.replace(/[^a-zA-Z0-9_.:-]/g, "").slice(0, 100);
-}
-
-function scheduleProcessing(
-  message: IncomingWhatsAppMessage,
-  processor: WhatsAppMessageProcessor,
-  logger: WebhookLogger,
-): void {
-  setImmediate(() => {
-    void processor.processClaimed(message).catch(() => {
-      logger.error(`WhatsApp processing failed for message ${safeId(message.id)}.`);
-    });
-  });
 }

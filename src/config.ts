@@ -11,6 +11,17 @@ const booleanFromEnvironment = z.preprocess((value) => {
   return value.toLowerCase() === "true";
 }, z.boolean());
 
+function integerFromEnvironment(
+  minimum: number,
+  maximum: number,
+  defaultValue: number,
+) {
+  return z.preprocess(
+    (value) => (typeof value === "string" && value.trim() === "" ? undefined : value),
+    z.coerce.number().int().min(minimum).max(maximum).default(defaultValue),
+  );
+}
+
 const environmentSchema = z
   .object({
     NODE_ENV: z.enum(["development", "test", "production"]).default("development"),
@@ -30,9 +41,40 @@ const environmentSchema = z
     META_GRAPH_API_VERSION: optionalText,
     DATABASE_URL: optionalText,
     CONVERSATION_HASH_SECRET: optionalText,
+    QUEUE_ENCRYPTION_KEYS: optionalText,
+    QUEUE_ENCRYPTION_ACTIVE_KEY_ID: optionalText,
+    WORKER_POLL_INTERVAL_MS: integerFromEnvironment(100, 60_000, 1_000),
+    WORKER_BATCH_SIZE: integerFromEnvironment(1, 50, 8),
+    WORKER_LEASE_MS: integerFromEnvironment(180_000, 15 * 60_000, 300_000),
+    WORKER_MAX_ATTEMPTS: integerFromEnvironment(1, 20, 6),
+    WORKER_RETRY_BASE_MS: integerFromEnvironment(100, 60 * 60_000, 5_000),
+    WORKER_RETRY_MAX_MS: integerFromEnvironment(100, 24 * 60 * 60_000, 300_000),
     ENABLE_TEST_CHAT: booleanFromEnvironment.default(true),
   })
   .superRefine((environment, context) => {
+    if (environment.WORKER_RETRY_MAX_MS < environment.WORKER_RETRY_BASE_MS) {
+      context.addIssue({
+        code: "custom",
+        path: ["WORKER_RETRY_MAX_MS"],
+        message: "WORKER_RETRY_MAX_MS must be greater than or equal to WORKER_RETRY_BASE_MS",
+      });
+    }
+
+    if (environment.DATABASE_URL) {
+      for (const key of [
+        "QUEUE_ENCRYPTION_KEYS",
+        "QUEUE_ENCRYPTION_ACTIVE_KEY_ID",
+      ] as const) {
+        if (!environment[key]) {
+          context.addIssue({
+            code: "custom",
+            path: [key],
+            message: `${key} is required when DATABASE_URL is configured`,
+          });
+        }
+      }
+    }
+
     if (environment.NODE_ENV !== "production") return;
 
     const requiredInProduction = [
@@ -47,6 +89,8 @@ const environmentSchema = z
       "META_GRAPH_API_VERSION",
       "DATABASE_URL",
       "CONVERSATION_HASH_SECRET",
+      "QUEUE_ENCRYPTION_KEYS",
+      "QUEUE_ENCRYPTION_ACTIVE_KEY_ID",
     ] as const;
 
     for (const key of requiredInProduction) {

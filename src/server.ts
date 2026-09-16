@@ -4,8 +4,10 @@ import { createApp } from "./app.js";
 import { OpenAIShoppingAssistant, UnavailableShoppingAssistant } from "./ai/assistant.js";
 import { loadConfig } from "./config.js";
 import { RuntimeKnowledge } from "./data/runtime-knowledge.js";
+import { InboundMessageWorker } from "./inbound-worker.js";
 import { MetaWhatsAppClient } from "./meta.js";
 import { ChatService, WhatsAppMessageProcessor } from "./processor.js";
+import { QueuePayloadCipher } from "./queue-payload-cipher.js";
 import {
   MemoryConversationRepository,
   PostgresConversationRepository,
@@ -41,6 +43,10 @@ async function main(): Promise<void> {
         })
       : new UnavailableShoppingAssistant();
   const chatService = new ChatService(knowledge, assistant, repository);
+  const payloadCipher = createQueuePayloadCipher(
+    config.QUEUE_ENCRYPTION_KEYS,
+    config.QUEUE_ENCRYPTION_ACTIVE_KEY_ID,
+  );
   const metaOptions = {
     ...(config.META_ACCESS_TOKEN ? { accessToken: config.META_ACCESS_TOKEN } : {}),
     ...(config.META_PHONE_NUMBER_ID ? { phoneNumberId: config.META_PHONE_NUMBER_ID } : {}),
@@ -57,8 +63,19 @@ async function main(): Promise<void> {
     chatService,
     meta,
     repository,
+    payloadCipher,
     config.CONVERSATION_HASH_SECRET ?? "local-development-only",
+    () => new Date(),
+    config.WORKER_LEASE_MS,
   );
+  const worker = new InboundMessageWorker(repository, whatsappProcessor, {
+    pollIntervalMs: config.WORKER_POLL_INTERVAL_MS,
+    batchSize: config.WORKER_BATCH_SIZE,
+    leaseMs: config.WORKER_LEASE_MS,
+    maxAttempts: config.WORKER_MAX_ATTEMPTS,
+    retryBaseMs: config.WORKER_RETRY_BASE_MS,
+    retryMaxMs: config.WORKER_RETRY_MAX_MS,
+  });
   const app = createApp({
     config,
     chatService,
@@ -70,21 +87,50 @@ async function main(): Promise<void> {
       meta: meta.configured && Boolean(config.META_APP_SECRET && config.META_WEBHOOK_VERIFY_TOKEN),
       postgres: Boolean(config.DATABASE_URL),
     },
-    readinessCheck: () => repository.isReady(),
+    readinessCheck: async () => worker.isRunning && (await repository.isReady()),
   });
   const server = createServer(app);
 
+  worker.start();
   server.listen(config.PORT, () => {
     console.info(`Arabic Sofa assistant listening on port ${config.PORT}.`);
   });
 
+  let shuttingDown = false;
   const shutdown = (): void => {
-    server.close(() => {
-      void repository.close().finally(() => process.exit(0));
+    if (shuttingDown) return;
+    shuttingDown = true;
+    const httpStopped = new Promise<void>((resolve, reject) => {
+      server.close((error) => {
+        if (error) reject(error);
+        else resolve();
+      });
     });
+    void Promise.all([httpStopped, worker.stop()])
+      .then(() => repository.close())
+      .then(() => process.exit(0))
+      .catch(() => {
+        console.error("Graceful shutdown failed.");
+        process.exit(1);
+      });
   };
   process.once("SIGINT", shutdown);
   process.once("SIGTERM", shutdown);
+}
+
+function createQueuePayloadCipher(
+  serializedKeys: string | undefined,
+  activeKeyId: string | undefined,
+): QueuePayloadCipher {
+  if (serializedKeys && activeKeyId) {
+    return QueuePayloadCipher.fromEnvironment(serializedKeys, activeKeyId);
+  }
+  if (serializedKeys || activeKeyId) {
+    throw new Error(
+      "QUEUE_ENCRYPTION_KEYS and QUEUE_ENCRYPTION_ACTIVE_KEY_ID must be configured together.",
+    );
+  }
+  return QueuePayloadCipher.ephemeral();
 }
 
 main().catch((error: unknown) => {

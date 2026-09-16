@@ -149,6 +149,40 @@ describe("ChatService", () => {
 
     expect(repository.handoffs[0]?.details.summary).toContain("media-123");
   });
+
+  it("reuses persisted WhatsApp results without duplicating history or handoffs", async () => {
+    const knowledge = await RuntimeKnowledge.load(dataDirectory);
+    const repository = new MemoryConversationRepository();
+    const assistant: ShoppingAssistant = {
+      reply: vi.fn(async () => ({
+        reply: "The team will review this request.",
+        route: "custom_order" as const,
+        handoff: true,
+        handoffDetails: { reason: "custom_review", summary: "Review this request." },
+        factSourceIds: [],
+      })),
+    };
+    const service = new ChatService(knowledge, assistant, repository);
+
+    const first = await service.respond(
+      "conversation-idempotent",
+      "Please make a completely custom design",
+      undefined,
+      "wamid.same",
+    );
+    const recovered = await service.respond(
+      "conversation-idempotent",
+      "Please make a completely custom design",
+      undefined,
+      "wamid.same",
+    );
+    const messages = await repository.getRecentMessages("conversation-idempotent", 10);
+
+    expect(recovered.reply).toBe(first.reply);
+    expect(assistant.reply).toHaveBeenCalledOnce();
+    expect(messages.map((message) => message.role)).toEqual(["user", "assistant"]);
+    expect(repository.handoffs).toHaveLength(1);
+  });
 });
 
 describe("sensitive-data detection", () => {
@@ -165,16 +199,5 @@ describe("sensitive-data detection", () => {
     const result = redactSensitiveData("My card 4242-4242-4242-4242 was declined");
     expect(result.detected).toBe(true);
     expect(result.redacted).toBe("My card [payment number removed] was declined");
-  });
-});
-
-describe("inbound deduplication", () => {
-  it("atomically claims a message only once", async () => {
-    const repository = new MemoryConversationRepository();
-    const claims = await Promise.all(
-      Array.from({ length: 10 }, () => repository.claimInboundMessage("wamid.1", "conversation")),
-    );
-
-    expect(claims.filter(Boolean)).toHaveLength(1);
   });
 });

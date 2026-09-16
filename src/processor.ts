@@ -5,7 +5,12 @@ import type {
   ShoppingAssistant,
 } from "./domain.js";
 import { detectLanguage, type RuntimeKnowledge } from "./data/runtime-knowledge.js";
-import type { ConversationRepository } from "./repository.js";
+import type { QueuePayloadCipher } from "./queue-payload-cipher.js";
+import type {
+  AppRepository,
+  ClaimedInboundJob,
+  ConversationRepository,
+} from "./repository.js";
 
 export interface MessageSender {
   sendText(to: string, body: string): Promise<void>;
@@ -24,6 +29,7 @@ export class ChatService {
     conversationId: string,
     customerMessage: string,
     mediaId?: string,
+    sourceMessageId?: string,
   ): Promise<AssistantResult> {
     return this.serialized(conversationId, async () => {
       const language = detectLanguage(customerMessage);
@@ -33,7 +39,24 @@ export class ChatService {
         "user",
         sensitive.redacted,
         mediaId,
+        sourceMessageId,
       );
+
+      if (sourceMessageId) {
+        const existingReply = await this.repository.findAssistantReplyBySource(
+          conversationId,
+          sourceMessageId,
+        );
+        if (existingReply) {
+          return {
+            reply: existingReply,
+            route: "unsupported",
+            handoff: false,
+            handoffDetails: null,
+            factSourceIds: [],
+          };
+        }
+      }
 
       const fastReply = sensitive.detected
         ? {
@@ -75,7 +98,6 @@ export class ChatService {
         }
       }
 
-      await this.repository.appendMessage(conversationId, "assistant", result.reply);
       if (result.handoff && result.handoffDetails) {
         const recentMessages = await this.repository.getRecentMessages(conversationId, 20);
         const mediaIds = [...new Set(recentMessages.flatMap((message) => message.mediaId ?? []))];
@@ -85,8 +107,15 @@ export class ChatService {
             mediaIds.length > 0
               ? `${result.handoffDetails.summary}\nMeta media references: ${mediaIds.join(", ")}`
               : result.handoffDetails.summary,
-        });
+        }, sourceMessageId);
       }
+      await this.repository.appendMessage(
+        conversationId,
+        "assistant",
+        result.reply,
+        undefined,
+        sourceMessageId,
+      );
       return result;
     });
   }
@@ -178,32 +207,67 @@ export class WhatsAppMessageProcessor {
   constructor(
     private readonly chats: ChatService,
     private readonly sender: MessageSender,
-    private readonly repository: ConversationRepository,
+    private readonly repository: AppRepository,
+    private readonly payloadCipher: QueuePayloadCipher,
     private readonly conversationHashSecret = "local-development-only",
+    private readonly now: () => Date = () => new Date(),
+    private readonly leaseMs = 300_000,
   ) {}
 
-  async claim(message: IncomingWhatsAppMessage): Promise<boolean> {
-    return this.repository.claimInboundMessage(
-      message.id,
-      hashConversationId(`${message.phoneNumberId}:${message.from}`, this.conversationHashSecret),
-    );
+  async enqueue(message: IncomingWhatsAppMessage): Promise<boolean> {
+    const conversationId = this.conversationId(message);
+    const encryptedPayload = this.payloadCipher.encryptMessage(message, conversationId);
+    return this.repository.enqueueInboundMessage({
+      messageId: message.id,
+      conversationId,
+      encryptedPayload,
+      enqueuedAt: this.now(),
+    });
   }
 
-  async processClaimed(message: IncomingWhatsAppMessage): Promise<void> {
-    const conversationId = hashConversationId(
+  async process(job: ClaimedInboundJob): Promise<void> {
+    const message = this.payloadCipher.decryptMessage(
+      job.encryptedPayload,
+      job.messageId,
+      job.conversationId,
+    );
+    let reply: string;
+    if (job.encryptedReply) {
+      reply = this.payloadCipher.decryptReply(
+        job.encryptedReply,
+        job.messageId,
+        job.conversationId,
+      );
+    } else {
+      const result = await this.chats.respond(
+        job.conversationId,
+        message.text,
+        message.mediaId,
+        job.messageId,
+      );
+      reply = result.reply;
+      const encryptedReply = this.payloadCipher.encryptReply(
+        reply,
+        job.messageId,
+        job.conversationId,
+      );
+      const saved = await this.repository.savePreparedReply(
+        job.messageId,
+        job.leaseToken,
+        encryptedReply,
+        this.now(),
+        this.leaseMs,
+      );
+      if (!saved) throw new Error("Inbound message lease was lost before sending.");
+    }
+    await this.sender.sendText(message.from, reply);
+  }
+
+  private conversationId(message: IncomingWhatsAppMessage): string {
+    return hashConversationId(
       `${message.phoneNumberId}:${message.from}`,
       this.conversationHashSecret,
     );
-    let replyWasSent = false;
-    try {
-      const result = await this.chats.respond(conversationId, message.text, message.mediaId);
-      await this.sender.sendText(message.from, result.reply);
-      replyWasSent = true;
-      await this.repository.markInboundDone(message.id);
-    } catch {
-      if (!replyWasSent) await this.repository.markInboundFailed(message.id);
-      throw new Error(`Failed to process inbound message ${safeMessageId(message.id)}.`);
-    }
   }
 }
 
@@ -260,10 +324,6 @@ function normalizeForFastPath(text: string): string {
     .replace(/[^\p{L}\p{N}\s]/gu, " ")
     .replace(/\s+/g, " ")
     .trim();
-}
-
-function safeMessageId(messageId: string): string {
-  return messageId.replace(/[^a-zA-Z0-9_.:-]/g, "").slice(0, 100);
 }
 
 function normalizeDigits(value: string): string {
